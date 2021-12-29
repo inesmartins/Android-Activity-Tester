@@ -1,5 +1,5 @@
 # Android-Activity-Tester
-Enumerates all exported and non-exported activities, launches exported activities one by one using `adb`.
+Enumerates all exported and non-exported activities, launches exported activities one by one using `adb`, and then non-exported activities as `root`.
 
 According to the [Android documentation](https://developer.android.com/guide/topics/manifest/activity-element#exported), an activity is considered exported in the following two cases:
 
