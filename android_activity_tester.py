@@ -31,8 +31,14 @@ def get_activities_dictionary(manifest_file_path):
     activities = dom.getElementsByTagName('activity')
     activities_dictionary = {}
     for activity in activities:
-        activity_name = activity.toxml().split('android:name="')[1].split('"')[0]
-        activities_dictionary[activity_name] = 'android:exported="true"' in activity.toxml() or '<intent-filter>' in activity.toxml()
+        activity_xml = activity.toxml()
+        export_explicit = 'android:exported="true"' in activity_xml
+        export_implicit = 'android:exported="false"' not in activity_xml and '<intent-filter>' in activity_xml
+        activity_name = activity_xml.split('android:name="')[1].split('"')[0]
+        if export_explicit or export_implicit:
+            activities_dictionary[activity_name] = True
+        else:
+            activities_dictionary[activity_name] = False
     return activities_dictionary
 
 def get_adb_formatted_activity(activity_name, package_name):
@@ -45,23 +51,23 @@ if __name__ == '__main__':
     args = get_parsed_args()
     dict = get_activities_dictionary(args.manifest)
 
-    print('\n=================== Exported =================== ')
+    print('\n=================== Explicitly/Implicitly Exported Activities =================== ')
     for entry in dict:
         if dict[entry] == True:
             print(entry)
 
-    print('\n=================== Not Exported ===================')
+    print('\n=================== Non-Exported Activities ===================')
     for entry in dict:
         if dict[entry] == False:
             print(entry)
 
-    print('\n=================== Launch Exported with ADB ===================')
+    print('\n=================== Launch Exported Activities with ADB ===================')
     for entry in dict:
         if dict[entry] == True:
             os.system('adb shell am start -n ' + args.package + '/' + get_adb_formatted_activity(entry, args.package))
             input("Press Enter to continue...")
 
-    print('\n=================== Launch Non-Exported with ADB Root ===================')
+    print('\n=================== Launch Non-Exported Activities with ADB Root ===================')
     os.system('adb root')
     for entry in dict:
         if dict[entry] == False:

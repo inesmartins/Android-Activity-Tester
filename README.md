@@ -21,39 +21,49 @@ Note that you can extract the manifest file from an APK using `apktool`, e.g.:
 
 [...]
 
-~ python3 android_activity_tester.py \
- -m com.twitter.android/AndroidManifest.xml \
- -p com.twitter.android
+~ python3 Android-Activity-Tester/android_activity_tester.py \
+-m com.twitter.android/AndroidManifest.xml \
+-p com.twitter.android
 
-=================== Exported =================== 
-com.twitter.app.deeplink.UrlInterpreterActivity
+=================== Explicitly/Implicitly Exported Activities =================== 
+com.twitter.app.dm.DMActivity
 com.twitter.android.StartActivity
-com.twitter.android.settings.SettingsActivity
-com.twitter.app.fleets.page.FleetThreadActivity
-com.twitter.app.fleets.stickers.FleetStickerActivity
 com.twitter.android.AuthorizeAppActivity
 com.twitter.android.SingleSignOnActivity
 com.twitter.app.profiles.ProfileActivity
-com.twitter.android.search.filters.AdvancedSearchFiltersActivity
-com.twitter.android.search.results.SearchActivity
-com.twitter.android.topics.landing.TopicLandingActivity
-com.twitter.android.topics.peek.activity.TopicPeekActivity
-com.twitter.android.unifiedlanding.UnifiedLandingActivity
-
-=================== Not Exported ===================
-com.twitter.android.LoginActivity
-com.twitter.android.LoginChallengeActivity
-com.twitter.android.WebauthnChallengeActivity
-com.twitter.android.PasswordResetActivity
-com.twitter.android.settings.NotificationSettingsActivity
-com.twitter.app.safety.notificationfilters.NotificationFiltersSettingsActivity
-com.twitter.android.AdvancedDiscoSettingsActivity
-com.twitter.android.ChangeScreenNameActivity
 [...]
 
-=================== ADB Test ===================
-Starting: Intent { cmp=com.twitter.android/com.twitter.app.deeplink.UrlInterpreterActivity }
+=================== Non-Exported Activities ===================
+com.twitter.android.login.LoginActivity
+com.twitter.android.login.LoginChallengeActivity
+com.twitter.android.login.WebauthnChallengeActivity
+com.twitter.android.login.PasswordResetActivity
+com.twitter.notifications.settings.NotificationFiltersSettingsActivity
+[...]
+
+=================== Launch Exported Activities with ADB ===================
+Starting: Intent { cmp=com.twitter.android/com.twitter.app.dm.DMActivity }
 Press Enter to continue...
 Starting: Intent { cmp=com.twitter.android/.StartActivity }
+Press Enter to continue...
+Starting: Intent { cmp=com.twitter.android/.AuthorizeAppActivity }
+Press Enter to continue...
+Starting: Intent { cmp=com.twitter.android/.SingleSignOnActivity }
+Press Enter to continue...
+Starting: Intent { cmp=com.twitter.android/com.twitter.app.profiles.ProfileActivity }
+Press Enter to continue...
+[...]
+
+=================== Launch Non-Exported Activities with ADB Root ===================
+restarting adbd as root
+Starting: Intent { cmp=com.twitter.android/.login.LoginActivity }
+Press Enter to continue...
+Starting: Intent { cmp=com.twitter.android/.login.LoginChallengeActivity }
+Press Enter to continue...
+Starting: Intent { cmp=com.twitter.android/.login.WebauthnChallengeActivity }
+Press Enter to continue...
+Starting: Intent { cmp=com.twitter.android/.login.PasswordResetActivity }
+Press Enter to continue...
+Starting: Intent { cmp=com.twitter.android/com.twitter.notifications.settings.NotificationFiltersSettingsActivity }
 Press Enter to continue...
 [...]
