@@ -55,8 +55,15 @@ if __name__ == '__main__':
         if dict[entry] == False:
             print(entry)
 
-    print('\n=================== ADB Test ===================')
+    print('\n=================== Launch Exported with ADB ===================')
     for entry in dict:
         if dict[entry] == True:
+            os.system('adb shell am start -n ' + args.package + '/' + get_adb_formatted_activity(entry, args.package))
+            input("Press Enter to continue...")
+
+    print('\n=================== Launch Non-Exported with ADB Root ===================')
+    os.system('adb root')
+    for entry in dict:
+        if dict[entry] == False:
             os.system('adb shell am start -n ' + args.package + '/' + get_adb_formatted_activity(entry, args.package))
             input("Press Enter to continue...")
