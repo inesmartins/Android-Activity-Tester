@@ -6,10 +6,12 @@ According to the [Android documentation](https://developer.android.com/guide/top
 * If the activity has `android:exported="true"` attribute in its definition.
 * If `android:exported` is not defined at all then it should have at least one intent-filter in it.
 
-In order to use this tool, specify the path to the app's `AndroidManifest.xml` file, e.g.:
+In order to use this tool, you need to specify the path to the app's `AndroidManifest.xml` file, as well as the package identifier:
 
 ```
-~ python3 android_activity_tester.py -m <path-to-decompiled-directory>/AndroidManifest.xml
+~ python3 android_activity_tester.py \
+  -m <path-to-decompiled-directory>/AndroidManifest.xml \
+  -p <package-identifier>
 ```
 
 Note that you can extract the manifest file from an APK using `apktool`, e.g.:
