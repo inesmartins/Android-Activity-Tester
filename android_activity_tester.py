@@ -16,6 +16,10 @@ def get_parsed_args():
                         metavar="FILE", 
     					type=lambda x: is_valid_file(parser, x),
                         help='Path to the AndroidManifest.xml file')    
+    parser.add_argument('-p', '--package', 
+                        dest="package",
+                        required=True,
+                        help='Package name, e.g.: com.twitter.android')    
     args = parser.parse_args()
     return args
 
@@ -31,9 +35,9 @@ def get_activities_dictionary(manifest_file_path):
         activities_dictionary[activity_name] = 'android:exported="true"' in activity.toxml() or '<intent-filter>' in activity.toxml()
     return activities_dictionary
 
-def get_adb_formatted_activity(activity_name):
-    if 'com.ingka.ikea.app' in activity_name:
-        return '.' + activity_name.split('com.ingka.ikea.app.')[1]
+def get_adb_formatted_activity(activity_name, package_name):
+    if package_name in activity_name:
+        return '.' + activity_name.split(package_name + '.')[1]
     else:
         return activity_name
 
@@ -54,5 +58,5 @@ if __name__ == '__main__':
     print('\n=================== ADB Test ===================')
     for entry in dict:
         if dict[entry] == True:
-            os.system('adb shell am start -n com.ingka.ikea.app/' + get_adb_formatted_activity(entry))
+            os.system('adb shell am start -n ' + args.package + '/' + get_adb_formatted_activity(entry, args.package))
             input("Press Enter to continue...")
